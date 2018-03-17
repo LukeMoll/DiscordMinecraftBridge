@@ -13,23 +13,24 @@ public class DiscordMinecraftBridge extends JavaPlugin implements Listener {
 	private Logger log = this.getLogger();
 	private DiscordWebhook hook;
 	
-	
 	@Override
 	public void onEnable() {
-		log.info("onEnable()");
+		this.saveDefaultConfig();
 		getServer().getPluginManager().registerEvents(this, this);
+		
 		try {
-			hook = new DiscordWebhook("webhook URL");
+			hook = new DiscordWebhook(getConfig().getString("discord.hookURL"));
 			hook.send("Enabled!");
 		} catch (MalformedURLException e) {
-			// Add load failure here
-			log.warning("MalformedURLException");
+			log.warning("MalformedURLException: Have you added your hook URL in config.yml?");
+			log.warning("Plugin will not be active until hook URL is valid.");
+			this.setEnabled(false);
 		}
 	}
 	
 	@Override
 	public void onDisable() {
-		log.info("onDisable();");
+		hook = null;
 		// Do we need to deregister events?
 	}
 	
@@ -43,9 +44,9 @@ public class DiscordMinecraftBridge extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		log.info(event.getPlayer().getDisplayName()+": "+event.getMessage());
-		String res = hook.send(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
-		log.info(res);
+		if(hook!=null) {			
+			hook.send(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+		}
 	}
 	
 }
