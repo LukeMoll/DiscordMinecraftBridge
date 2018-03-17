@@ -8,10 +8,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.lukemoll.discordminecraftbridge.AvatarProviders.ProviderNotFoundException;
+
 public class DiscordMinecraftBridge extends JavaPlugin implements Listener {
 
 	private Logger log = this.getLogger();
 	private DiscordWebhook hook;
+	private IAvatarProvider avProvider;
 	
 	@Override
 	public void onEnable() {
@@ -20,11 +23,19 @@ public class DiscordMinecraftBridge extends JavaPlugin implements Listener {
 		
 		try {
 			hook = new DiscordWebhook(getConfig().getString("discord.hookURL"));
-			hook.send("Enabled!");
+//			hook.send("Enabled!"); // Either give this a better username & avatar or remove it.
 		} catch (MalformedURLException e) {
 			log.warning("MalformedURLException: Have you added your hook URL in config.yml?");
 			log.warning("Plugin will not be active until hook URL is valid.");
 			this.setEnabled(false);
+		}
+		
+		try {
+			this.avProvider = AvatarProviders.getAvatarProvider(getConfig().getString("minecraft.avatarProvider"));
+		}
+		catch(ProviderNotFoundException e) {
+			log.warning(getConfig().getString("minecraft.avatarProvider") + " is not a valid avatar provider. " + AvatarProviders.DEFAULT_PROVIDER + " will be used as a fallback.");
+			this.avProvider = AvatarProviders.getDefaultAvatarProvider();
 		}
 	}
 	
@@ -44,8 +55,12 @@ public class DiscordMinecraftBridge extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		if(hook!=null) {			
-			hook.send(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+		if(hook!=null) {
+			String avatar = avProvider.getAvatar(event.getPlayer().getUniqueId().toString(),
+												 event.getPlayer().getDisplayName());
+			hook.send(event.getMessage(),
+					  avatar,
+					  event.getPlayer().getDisplayName());
 		}
 	}
 	

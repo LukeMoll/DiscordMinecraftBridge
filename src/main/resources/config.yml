@@ -1,3 +1,10 @@
 # default config.yml
 discord:
    hookURL: YOUR HOOK HERE
+minecraft:
+   # Format: 'provider:type'
+   # Providers:
+   #  crafatar: face,head
+   #  visage: face,head,front,bust
+   #  minotar:face,head,front
+   avatarProvider: visage:face
