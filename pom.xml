@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>xyz.lukemoll</groupId>
   <artifactId>DiscordMinecraftBridge</artifactId>
-  <version>0.0.9-SNAPSHOT</version>
+  <version>0.0.10</version>
      <build>
       <plugins>
           <plugin>
@@ -74,6 +74,11 @@
 		  <groupId>com.squareup.okhttp3</groupId>
 		  <artifactId>okhttp</artifactId>
 		  <version>3.10.0</version>
+		</dependency>
+		<dependency> 
+		  <groupId>org.slf4j</groupId>
+		  <artifactId>slf4j-jdk14</artifactId>
+		  <version>1.7.25</version>
 		</dependency>
      </dependencies>
 </project>
