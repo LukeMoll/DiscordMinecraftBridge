@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>xyz.lukemoll</groupId>
   <artifactId>DiscordMinecraftBridge</artifactId>
-  <version>0.0.8-SNAPSHOT</version>
+  <version>0.0.9-SNAPSHOT</version>
      <build>
       <plugins>
           <plugin>
@@ -69,7 +69,6 @@
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20180130</version>
-		    <scope>runtime</scope>
 		</dependency>
 		<dependency>
 		  <groupId>com.squareup.okhttp3</groupId>

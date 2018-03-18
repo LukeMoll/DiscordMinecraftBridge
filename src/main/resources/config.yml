@@ -1,6 +1,9 @@
 # default config.yml
 discord:
+   # Get your Webhook URL from Edit Channel -> Webhooks -> Create/Edit webhook -> Copy URL
    hookURL: YOUR HOOK HERE
+   # Get your bot token from https://discordapp.com/developers/applications/me -> [your bot] -> Bot -> Token
+   botToken: BOT TOKEN HERE
 minecraft:
    # Format: 'provider:type'
    # Providers:
