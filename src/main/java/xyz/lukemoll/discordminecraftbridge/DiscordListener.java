@@ -34,21 +34,23 @@ public class DiscordListener implements IListener<MessageEvent> {
 
 	@Override
 	public void handle(MessageEvent arg0) {
-		JSONArray arr = new JSONArray();
-		JSONObject sender = new JSONObject();
+		if(!arg0.getAuthor().getStringID().contentEquals(this.hook.getID())) {
+			JSONArray arr = new JSONArray();
+			JSONObject sender = new JSONObject();
 			String username = arg0.getAuthor().getDisplayName(arg0.getGuild());
 			sender.put("text", "<" + username + "> ");
 			sender.put("color", getColor(username));
 			sender.put("bold", true);
-		arr.put(sender);
-		JSONObject message = new JSONObject();
+			arr.put(sender);
+			JSONObject message = new JSONObject();
 			message.put("text", arg0.getMessage());
 			message.put("color", "white");
 			message.put("bold", false);
-		arr.put(message);
+			arr.put(message);
 			
-		String json = arr.toString();
-		server.dispatchCommand(server.getConsoleSender(), "tellraw @a " + json);	
+			String json = arr.toString();
+			server.dispatchCommand(server.getConsoleSender(), "tellraw @a " + json);			
+		}
 	}
 	
 	private static final String[] colors = {"dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "blue", "green", "aqua", "red", "light_purple", "yellow"};
